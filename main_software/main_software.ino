@@ -1,6 +1,9 @@
 // Define colour sensor LED pins
 int ledArray[] = {3,5,6};
 
+// Define visual output LED pins
+int ledOutArray[] = {9,10,11};
+
 // Boolean to know if the balance has been set
 boolean balanceSet = false;
 
@@ -23,13 +26,14 @@ int avgRead;
 
 void setup() {
   // Setup the outputs for the colour sensor
-  pinMode(3,OUTPUT);
-  pinMode(5,OUTPUT);
-  pinMode(6,OUTPUT);
+  pinMode(ledArray[0],OUTPUT);
+  pinMode(ledArray[1],OUTPUT);
+  pinMode(ledArray[2],OUTPUT);
+  
   // Setup the outputs for the visual colourLED
-  pinMode(9,OUTPUT);    // 
-  pinMode(10,OUTPUT);
-  pinMode(11,OUTPUT);
+  pinMode(ledOutArray[0],OUTPUT);
+  pinMode(ledOutArray[1],OUTPUT);
+  pinMode(ledOutArray[2],OUTPUT);
  
   // Begin serial communication
   Serial.begin(9600);
@@ -53,16 +57,18 @@ void setBalance(){
   digitalWrite(ledArray[0],LOW);
   digitalWrite(ledArray[1],LOW);
   digitalWrite(ledArray[2],LOW);
-  digitalWrite(9,LOW);
-  digitalWrite(10,LOW);
-  digitalWrite(11,LOW);
+  digitalWrite(ledOutArray[0],LOW);
+  digitalWrite(ledOutArray[1],LOW);
+  digitalWrite(ledOutArray[2],LOW);
   delay(50);
+  
   digitalWrite(ledArray[0],HIGH);
   digitalWrite(ledArray[1],HIGH);
   digitalWrite(ledArray[2],HIGH);
-  digitalWrite(9,HIGH);
-  digitalWrite(10,HIGH);
-  digitalWrite(11,HIGH);
+  digitalWrite(ledOutArray[0],HIGH);
+  digitalWrite(ledOutArray[1],HIGH);
+  digitalWrite(ledOutArray[2],HIGH);
+  
   // Set white balance
   delay(5000);                              // Delay for five seconds, this gives us time to get a white sample in front of our sensor
   // Scan the white sample.
