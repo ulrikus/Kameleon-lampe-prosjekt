@@ -46,14 +46,14 @@ void loop() {
   showColor();
 }
 
-void checkBalance(){
+void checkBalance() {
   // Check if the balance has been set, if not, set it
   if(balanceSet == false){
     setBalance();
   }
 }
 
-void setBalance(){
+void setBalance() {
   digitalWrite(ledArray[0],LOW);
   digitalWrite(ledArray[1],LOW);
   digitalWrite(ledArray[2],LOW);
@@ -70,39 +70,42 @@ void setBalance(){
   digitalWrite(ledOutArray[2],HIGH);
   
   // Set white balance
-  delay(5000);                              // Delay for five seconds, this gives us time to get a white sample in front of our sensor
-  // Scan the white sample.
-  // Go through each light, get a reading, set the base reading for each colour red, green, and blue to the white array
-  for(int i=0; i<=2; i++){
-   digitalWrite(ledArray[i],LOW);
-   delay(100);
-   getReading(5);          // Number is the number of scans to take for average, this whole function is redundant, one reading works just as well.
-   whiteArray[i] = avgRead;
-   digitalWrite(ledArray[i],HIGH);
-   delay(100);
+  delay(5000);              // Delay for five seconds, this gives us time to get a white sample in front of our sensor
+  
+  // Scan the white sample, go through each light, get a reading, set the base reading for each colour red, green, and blue to the white array
+  for(int i=0; i<=2; i++) {
+    digitalWrite(ledArray[i],LOW);
+    delay(100);
+    getReading(5);          // Number is the number of scans to take for average, this whole function is redundant, one reading works just as well.
+    whiteArray[i] = avgRead;
+    digitalWrite(ledArray[i],HIGH);
+    delay(100);             // Done scanning white, now it will pulse blue to tell you that it is time for the black (or grey) sample.
   }
-  // Done scanning white, now it will pulse blue to tell you that it is time for the black (or grey) sample.
+  
   // Set black balance
   delay(5000);              // Wait for five seconds so we can position our black sample 
+  
   // Go ahead and scan, sets the colour values for red, green, and blue when exposed to black
-  for(int i=0; i<=2; i++){
-   digitalWrite(ledArray[i],LOW);
-   delay(100);
-   getReading(5);
-   blackArray[i] = avgRead;
-   //blackArray[i] = analogRead(2);
-   digitalWrite(ledArray[i],HIGH);
-   delay(100);
+  for(int i=0; i<=2; i++) {
+    digitalWrite(ledArray[i],LOW);
+    delay(100);
+    
+    getReading(5);
+    blackArray[i] = avgRead;
+    //blackArray[i] = analogRead(2);
+    digitalWrite(ledArray[i],HIGH);
+    delay(100);
   }
-  //set boolean value so we know that balance is set
+  // Set boolean value so we know that balance is set
   balanceSet = true;
-  delay(5000);     //delay another 5 seconds to let us catch up
+  delay(5000);     // Delay another 5 seconds to let us catch up
 }
 
-void checkColour(){
-  for(int i=0; i<=2; i++){
+void checkColour() {
+  for(int i=0; i<=2; i++) {
     digitalWrite(ledArray[i],LOW);  // Turn on the LED, red, green or blue depending which iteration
     delay(100);                      // Delay to allow CdS to stabalize (they are slow)
+    
     getReading(5);                   // Take a reading however many times
     colourArray[i] = avgRead;        // Set the current colour in the array to the average reading
     float greyDiff = whiteArray[i] - blackArray[i];                   // The highest possible return minus the lowest returns the area for values in between
@@ -119,21 +122,23 @@ void checkColour(){
   }
 }
 
-void getReading(int times){
+void getReading(int times) {
   int reading;
   int tally = 0;
+  
   // Take the reading however many times was requested and add them up
-  for(int i=0; i<times; i++){
+  for(int i=0; i<times; i++) {
     reading = analogRead(A7);
     tally = reading + tally;
     delay(10);
   }
+  
   // Calculate the average and set it
   avgRead = (tally)/times;
 }
 
 // Prints the colour in the colour array, in the next step, we will send this to processing to see how good the sensor works.
-void printColour(){
+void printColour() {
   Serial.print("R = ");
   Serial.println(int(colourArray[0]));
   Serial.print("G = ");
@@ -144,9 +149,9 @@ void printColour(){
   //delay(2000);
 }
 
-void showColor(){
-  analogWrite(9,int(colourMapped[0]));   // Red
-  analogWrite(10,int(colourMapped[1]));    // Blue
-  analogWrite(11,int(colourMapped[2]));  // Green
+void showColor() {
+  analogWrite(9,int(colourMapped[0]));      // Red
+  analogWrite(10,int(colourMapped[1]));     // Blue
+  analogWrite(11,int(colourMapped[2]));     // Green
 }
 
