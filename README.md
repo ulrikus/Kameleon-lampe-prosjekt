@@ -8,7 +8,7 @@ https://0xcf.com/2015/03/13/chinese-arduinos-with-ch340-ch341-serial-usb-chip-on
 Components:
 - Arduino Nano
 - Common kathode RGB LEDs
-- Transistors
+- Transistors (2N3904)
 - Resistors
 - Photocell/photoresistor
 
