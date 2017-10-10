@@ -150,8 +150,8 @@ void printColour() {
 }
 
 void showColor() {
-  analogWrite(9,int(colourMapped[0]));      // Red
-  analogWrite(10,int(colourMapped[1]));     // Blue
-  analogWrite(11,int(colourMapped[2]));     // Green
+  analogWrite(ledOutArray[0],int(colourMapped[0]));     // Red
+  analogWrite(ledOutArray[1],int(colourMapped[1]));     // Blue
+  analogWrite(ledOutArray[2],int(colourMapped[2]));     // Green
 }
 
