@@ -1,8 +1,11 @@
 // Define colour sensor LED pins
 int ledArray[] = {3,5,6};
 
-// Define visual output LED pins
+// Define visual output LED pins (R=9, G=11, B=10)
 int ledOutArray[] = {9,10,11};
+
+// Define photocell pin
+int photoCell = A7;
 
 // Boolean to know if the balance has been set
 boolean balanceSet = false;
@@ -34,6 +37,9 @@ void setup() {
   pinMode(ledOutArray[0],OUTPUT);
   pinMode(ledOutArray[1],OUTPUT);
   pinMode(ledOutArray[2],OUTPUT);
+
+  // Setup photocell as input
+  pinMode(photoCell, INPUT);
  
   // Begin serial communication
   Serial.begin(9600);
@@ -54,46 +60,33 @@ void checkBalance() {
 }
 
 void setBalance() {
-  digitalWrite(ledArray[0],LOW);
-  digitalWrite(ledArray[1],LOW);
-  digitalWrite(ledArray[2],LOW);
-  digitalWrite(ledOutArray[0],LOW);
-  digitalWrite(ledOutArray[1],LOW);
-  digitalWrite(ledOutArray[2],LOW);
-  delay(50);
-  
-  digitalWrite(ledArray[0],HIGH);
-  digitalWrite(ledArray[1],HIGH);
-  digitalWrite(ledArray[2],HIGH);
-  digitalWrite(ledOutArray[0],HIGH);
-  digitalWrite(ledOutArray[1],HIGH);
-  digitalWrite(ledOutArray[2],HIGH);
-  
+  blinkLeds();
   // Set white balance
   delay(5000);              // Delay for five seconds, this gives us time to get a white sample in front of our sensor
   
   // Scan the white sample, go through each light, get a reading, set the base reading for each colour red, green, and blue to the white array
   for(int i=0; i<=2; i++) {
-    digitalWrite(ledArray[i],LOW);
+    digitalWrite(ledArray[i], LOW);
     delay(100);
     getReading(5);          // Number is the number of scans to take for average, this whole function is redundant, one reading works just as well.
     whiteArray[i] = avgRead;
-    digitalWrite(ledArray[i],HIGH);
+    digitalWrite(ledArray[i], HIGH);
     delay(100);             // Done scanning white, now it will pulse blue to tell you that it is time for the black (or grey) sample.
   }
   
+  blinkLeds();
   // Set black balance
   delay(5000);              // Wait for five seconds so we can position our black sample 
   
   // Go ahead and scan, sets the colour values for red, green, and blue when exposed to black
   for(int i=0; i<=2; i++) {
-    digitalWrite(ledArray[i],LOW);
+    digitalWrite(ledArray[i], LOW);
     delay(100);
     
     getReading(5);
     blackArray[i] = avgRead;
     //blackArray[i] = analogRead(2);
-    digitalWrite(ledArray[i],HIGH);
+    digitalWrite(ledArray[i], HIGH);
     delay(100);
   }
   // Set boolean value so we know that balance is set
@@ -128,7 +121,7 @@ void getReading(int times) {
   
   // Take the reading however many times was requested and add them up
   for(int i=0; i<times; i++) {
-    reading = analogRead(A7);
+    reading = analogRead(photoCell);
     tally = reading + tally;
     delay(10);
   }
@@ -146,12 +139,29 @@ void printColour() {
   Serial.print("B = ");
   Serial.println(int(colourArray[2]));
   Serial.println();
-  //delay(2000);
+  //delay(1000);
 }
 
 void showColor() {
   analogWrite(ledOutArray[0],int(colourMapped[0]));     // Red
   analogWrite(ledOutArray[1],int(colourMapped[1]));     // Blue
   analogWrite(ledOutArray[2],int(colourMapped[2]));     // Green
+}
+
+void blinkLeds() {
+  delay(50);
+  digitalWrite(ledArray[0],LOW);
+  digitalWrite(ledArray[1],LOW);
+  digitalWrite(ledArray[2],LOW);
+  digitalWrite(ledOutArray[0],LOW);
+  digitalWrite(ledOutArray[1],LOW);
+  digitalWrite(ledOutArray[2],LOW);
+  delay(50);
+  digitalWrite(ledArray[0],HIGH);
+  digitalWrite(ledArray[1],HIGH);
+  digitalWrite(ledArray[2],HIGH);
+  digitalWrite(ledOutArray[0],HIGH);
+  digitalWrite(ledOutArray[1],HIGH);
+  digitalWrite(ledOutArray[2],HIGH);
 }
 
