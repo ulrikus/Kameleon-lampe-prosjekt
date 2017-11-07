@@ -97,9 +97,9 @@ void setBalance() {
 void checkColor() {
   for(int i=0; i<=2; i++) {
     digitalWrite(ledArray[i],LOW);  // Turn on the LED, red, green or blue depending which iteration
-    delay(100);                      // Delay to allow CdS to stabalize (they are slow)
+    delay(100);                     // Delay to allow CdS to stabilize (they are slow)
     
-    getReading(5);                   // Take a reading however many times
+    getReading(5);                  // Take a reading however many times
     colorArray[i] = avgRead;        // Set the current color in the array to the average reading
     float greyDiff = whiteArray[i] - blackArray[i];                   // The highest possible return minus the lowest returns the area for values in between
     colorArray[i] = (colorArray[i] - blackArray[i])/(greyDiff)*255; // The reading returned minus the lowest value divided by the possible range multiplied by 
