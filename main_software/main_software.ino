@@ -133,11 +133,20 @@ void getReading(int times) {
 // Prints the colour in the colour array, in the next step, we will send this to processing to see how good the sensor works.
 void printColour() {
   Serial.print("R = ");
-  Serial.println(int(colourArray[0]));
+  Serial.print(int(colourArray[0]));
+  Serial.print(", ");
+  Serial.println(int(colourMapped[0]));
+  
   Serial.print("G = ");
-  Serial.println(int(colourArray[1]));
+  Serial.print(int(colourArray[1]));
+  Serial.print(", ");
+  Serial.println(int(colourMapped[1]));
+  
   Serial.print("B = ");
-  Serial.println(int(colourArray[2]));
+  Serial.print(int(colourArray[2]));
+  Serial.print(", ");
+  Serial.println(int(colourMapped[2]));
+  
   Serial.println();
   //delay(1000);
 }
