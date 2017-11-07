@@ -48,19 +48,19 @@ void setup() {
 void loop() {
   checkBalance();
   checkColor();
-  // printColor();    // Comment out if not actually printing values
-  showColor();
+  printColor();    // Comment out if not actually printing values
+  // showColor();
 }
 
 void checkBalance() {
   // Check if the balance has been set, if not, set it
   if(balanceSet == false){
+    blinkWhiteLeds();
     setBalance();
   }
 }
 
 void setBalance() {
-  blinkWhiteLeds();
   // Set white balance
   delay(5000);              // Delay for five seconds, this gives us time to get a white sample in front of our sensor
   
@@ -74,7 +74,6 @@ void setBalance() {
     delay(100);             // Done scanning white, now it will pulse blue to tell you that it is time for the black (or grey) sample.
   }
   
-  blinkWhiteLeds();
   // Set black balance
   delay(5000);              // Wait for five seconds so we can position our black sample 
   
@@ -89,6 +88,7 @@ void setBalance() {
     digitalWrite(ledArray[i], HIGH);
     delay(100);
   }
+  
   // Set boolean value so we know that balance is set
   balanceSet = true;
   delay(5000);     // Delay another 5 seconds to let us catch up
