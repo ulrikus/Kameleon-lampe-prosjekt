@@ -105,14 +105,15 @@ void checkColor() {
     colorArray[i] = (colorArray[i] - blackArray[i])/(greyDiff)*255; // The reading returned minus the lowest value divided by the possible range multiplied by 
                                                                       // 255 will give us a value roughly between 0-255 representing the value for the current 
                                                                       // reflectivity (for the color it is exposed to) of what is being scanned
-    
-    colorMapped[0] = map(colorArray[0],20,250,255,0);
-    colorMapped[1] = map(colorArray[1],8,250,255,0);
-    colorMapped[2] = map(colorArray[2],6,245,255,0);
+
+    //colorMapped[i] = map(colorArray[i], 0, 255, 255, 0);
     
     digitalWrite(ledArray[i],HIGH);   // Turn off the current LED
     delay(100);
   }
+  colorMapped[0] = map(colorArray[0], 20, 250, 255, 0);
+  colorMapped[1] = map(colorArray[1], 8, 250, 255, 0);
+  colorMapped[2] = map(colorArray[2], 6, 245, 255, 0);
 }
 
 void getReading(int times) {
