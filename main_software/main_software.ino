@@ -47,8 +47,8 @@ void setup() {
 
 void loop() {
   checkBalance();
-  checkcolor();
-  // printcolor();    // Comment out if not actually printing values
+  checkColor();
+  // printColor();    // Comment out if not actually printing values
   showColor();
 }
 
@@ -94,7 +94,7 @@ void setBalance() {
   delay(5000);     // Delay another 5 seconds to let us catch up
 }
 
-void checkcolor() {
+void checkColor() {
   for(int i=0; i<=2; i++) {
     digitalWrite(ledArray[i],LOW);  // Turn on the LED, red, green or blue depending which iteration
     delay(100);                      // Delay to allow CdS to stabalize (they are slow)
@@ -131,7 +131,7 @@ void getReading(int times) {
 }
 
 // Prints the color in the color array, in the next step, we will send this to processing to see how good the sensor works.
-void printcolor() {
+void printColor() {
   Serial.print("R = ");
   Serial.print(int(colorArray[0]));
   Serial.print(", ");
