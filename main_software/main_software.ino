@@ -106,9 +106,9 @@ void checkColour() {
                                                                       // 255 will give us a value roughly between 0-255 representing the value for the current 
                                                                       // reflectivity (for the colour it is exposed to) of what is being scanned
     
-    colourMapped[1] = map(colourArray[1],20,250,255,0);
-    colourMapped[2] = map(colourArray[2],8,250,255,0);
-    colourMapped[3] = map(colourArray[3],6,245,255,0);
+    colourMapped[0] = map(colourArray[1],20,250,255,0);
+    colourMapped[1] = map(colourArray[2],8,250,255,0);
+    colourMapped[2] = map(colourArray[3],6,245,255,0);
     
     digitalWrite(ledArray[i],HIGH);   // Turn off the current LED
     delay(100);
